@@ -23,6 +23,12 @@ build-depends:
 # Provides zipfile, used to pull the single DLL out of the nupkg below
 - freedesktop-sdk.bst:components/python3.bst
 
+# BuildStream runs build/install commands through /bin/sh, and the commands
+# use coreutils (install). The python3 artifact provides neither, so stage
+# the bootstrap shell and coreutils into the build sandbox.
+- freedesktop-sdk.bst:bootstrap/bash.bst
+- freedesktop-sdk.bst:bootstrap/coreutils.bst
+
 sources:
 # The nupkg is a plain zip archive; no NuGet-specific handling needed
 - kind: remote
