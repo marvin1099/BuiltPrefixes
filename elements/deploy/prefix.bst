@@ -96,6 +96,14 @@ config:
     echo "Initializing Wine prefix with wineboot..."
     $WINE wineboot -i || (export WINE="/proton/files/bin/wine64"; export WINEARCH=win64; rm -rf "%{prefix-root}"; $WINE wineboot -i)
 
+  # Step 3: wine-mono (bundled with GE-Proton) registers a .NET 4.7
+  # placeholder in fresh 64-bit prefixes. The real .NET installers then
+  # bail out with "Same or higher version already installed" without
+  # installing anything, so clear the seeded v4 key first.
+  - |
+    echo "Clearing wine-mono seeded .NET Framework 4 registry keys..."
+    $WINE reg delete "HKLM\Software\Microsoft\NET Framework Setup\NDP\v4" /f || true
+
   # Step 4: Install Windows components via winetricks using the mode chosen above
   # -q flag runs in quiet/unattended mode
   - |
