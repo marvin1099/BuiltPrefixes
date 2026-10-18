@@ -28,11 +28,18 @@ variables:
   vkd3d-proton-version: "3.0.1"
 
 sources:
-# 7-Zip - archive utility
+# 7-Zip - archive utility (win32 prefixes)
 - kind: remote
   url: "tar_https:www.7-zip.org/a/7z2409.exe"
   directory: "7zip"
   ref: "e35e4374100b52e697e002859aefdd5533bcbf4118e5d2210fae6de318947c41"
+
+# 7-Zip x64 - winetricks' load_7zip downloads the x64 build on win64
+# prefixes, so it must be pre-cached too for offline builds.
+- kind: remote
+  url: "tar_https:www.7-zip.org/a/7z2409-x64.exe"
+  directory: "7zip"
+  ref: "bdd1a33de78618d16ee4ce148b849932c05d0015491c34887846d431d29f308e"
 
 # .NET Framework 4.0 - via archive.org for stability
 - kind: remote
